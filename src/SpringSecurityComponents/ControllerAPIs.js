@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = 'http://34.173.47.153:8000/auth'
+const baseUrl = 'http://localhost:8000/auth'
 
 export const getWelcome = async () => {
     try {
