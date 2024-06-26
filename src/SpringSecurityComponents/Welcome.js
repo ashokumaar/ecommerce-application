@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
-
-import { getWelcome } from './ControllerAPIs';
+import { getWelcome } from '../APIs/AuthServiceAPIs';
 
 const Welcome = () => {
     const [welcome, setWelcome] = useState('')

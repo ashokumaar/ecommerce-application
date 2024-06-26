@@ -9,7 +9,7 @@ import About from './Components/About';
 import NotFound from './Components/NotFound';
 import Customer from './Components/Customer';
 import Products from './Components/Products';
-import Orders from './Components/Orders';
+import Orders from './Components/UserOrders';
 import LoginForm from './SpringSecurityComponents/LoginForm'
 import Welcome from './SpringSecurityComponents/Welcome';
 import UserProfile from './SpringSecurityComponents/UserProfile';
@@ -27,6 +27,7 @@ import Groceries from './Components/Groceries/Shopping';
 import Travel from './Components/Travel/Shopping';
 import SignUp from './SpringSecurityComponents/SignUp';
 import Cart from './Components/Cart';
+import UserOrders from './Components/UserOrders';
 
 function App() {
   return (
@@ -36,13 +37,15 @@ function App() {
       <Copyrights/>
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/ecommerce-application' element={<Home />} />
         <Route path='/home' element={<Home />} />        
         <Route path='/contact' element={<Contact />} />
         <Route path='/about' element={<About />} />
         <Route path='/customers' element={<Customer />} />
         <Route path='/products' element={<Products />} />
-        <Route path='/orders' element={<Orders />} />
-        <Route path='/auth/register' element={<LoginForm />} />
+        <Route path='/orders' element={<UserOrders/>} />
+        <Route path='/orders2' element={<Orders/>} />
+        <Route path='/auth/register' element={<LoginForm />} /> 
         <Route path='/auth/welcome' element={<Welcome />} />
         <Route path='/auth/user/userProfile' element={<UserProfile />} />
         <Route path='/auth/addNewUser' element={<SignUp />} />

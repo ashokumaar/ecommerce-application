@@ -12,12 +12,12 @@ root.render(
   // <BrowserRouter>
   //   <App />
   // </BrowserRouter>
-  <React.StrictMode>
+  // <React.StrictMode>
     <BrowserRouter>
       <ToastContainer />
       <UserContextProvider value={{ /* Initial context value */ }}>
         <App />
       </UserContextProvider>
     </BrowserRouter>
-  </React.StrictMode>
+  // </React.StrictMode>
 );

@@ -2,26 +2,19 @@ import React, { useState, useEffect } from "react";
 import { Modal, Row, Col, Accordion, Container, Form, Dropdown, Card, Button } from "react-bootstrap";
 import { X, Filter, CartPlus } from 'react-bootstrap-icons';
 import { useUserContext } from "../../SpringSecurityComponents/UserContext";
-import mensJeans from '../../Data/MensJeans.json';
-import mensKurta from '../../Data/MensKurta.json';
-import mensShirts from '../../Data/MensShirts.json';
-// import shoes from '../Data/Shoes.json';
-import womensDress from '../../Data/WomensDress.json';
-import womensJeans from '../../Data/WomensJeans.json';
-import womensTops from '../../Data/WomensTops.json';
 import navigation from './Datastructure'
 import '../../CSS/Products.css'
+import booksData from './books.json';
 
-console.log(navigation.categories)
+console.log(navigation.categories);
+console.log(booksData);
 
-const allItems = []
-
-allItems.push(...mensJeans, ...mensKurta, ...mensShirts, ...womensDress, ...womensJeans, ...womensTops)
+// const allItems = [...booksData];
+const allItems = booksData;
 
 const filters = {
-    brands: ['Tokyo Talkies', 'PETER ENGLAND', 'FUBAR', 'HIGHLANDER', 'KOTTY', 'Aarvia', `LEVI'S`, 'Majestic Man', 'Vida Loca', 'linaria'],
+    brands: ['Iqoo', 'Samsung', 'Xiaomi', 'Realme', 'Vivo', 'Oppo', 'Apple'],
     colors: ['White', 'Black', 'Blue', 'Red'],
-    sizes: ['S', 'M', 'L']
 };
 
 const sortOptions = [
@@ -46,33 +39,20 @@ const Shopping = ({ product }) => {
     const [isFiltersOccur, setIsFiltersOccur] = useState(false);
     const [categoryIndex, setCategoryIndex] = useState(0);
     const [sectionIndex, setSectionIndex] = useState(0);
+    const [itemsIndex, setItemsIndex] = useState(0);
     const [price, setPrice] = useState(1000);
     const [isLoading, setIsLoading] = useState(false); // Flag for loading state
 
     useEffect(() => {
+        console.log(' useeffect[] ::')
         setProducts(allItems);
-        setFilteredProducts(allItems)
+        setFilteredProducts(allItems);
+        console.log(allItems);
     }, [])
 
     useEffect(() => {
         // Filter logic based on category, subcategory, and thirdCategory
         let tempProducts = products;
-
-        // const brandMap = tempProducts.reduce((acc, product) => {
-        //     // Initialize count to 1 if brand doesn't exist in acc
-        //     acc[product.brand] = (acc[product.brand] || 0) + 1;
-        //     return acc;
-        // }, {});
-        // const brandCountArray = [];
-        // for (const brand in brandMap) {
-        //     if (brandMap.hasOwnProperty(brand)) {
-        //         brandCountArray.push([brand, brandMap[brand]]);
-        //     }
-        // }
-        // const top10Brands = brandCountArray.sort((a, b) => b[1] - a[1]).slice(0, 10);
-        // const top10BrandNames = top10Brands.map(item => item[0]);
-        // console.log(top10BrandNames);
-
         setIsLoading(true); // Reset loading state after filtering
         if (category && category !== "All") {
             tempProducts = tempProducts.filter(
@@ -82,69 +62,49 @@ const Shopping = ({ product }) => {
 
         if (subcategory) {
             tempProducts = tempProducts.filter(
-                (product) => {
-                    if (subcategory === 'Clothing')
-                        return product.secondLavelCategory;
-                    else if (subcategory === 'Brands')
-                        return product.brand;
-                    else
-                        return product.accessories;
-
-                }
+                (product) => product.secondLavelCategory.includes(subcategory)
             );
         }
 
         if (thirdCategory) {
             tempProducts = tempProducts.filter(
                 (product) => {
-                    if (subcategory === 'Clothing')
-                        return product.thirdLavelCategory === thirdCategory;
-                    else if (subcategory === 'Brands')
-                        return product.brand === thirdCategory;
-                    else
-                        return product.accessories === thirdCategory;
+                    // console.log('3rd cat :: ', navigation.categories[categoryIndex].sections[sectionIndex].items[itemsIndex].id)
+                    return product.thirdLavelCategory === thirdCategory || product.brand.toLowerCase()===thirdCategory;
                 }
             );
         }
+        // const underPriceProduts = tempProducts.filter((product) => {
+        //     if (product.discountedPrice) {
+        //         return product.discountedPrice < price;
+        //     } else {
+        //         return product.selling_price < price;
+        //     }
+        // })
 
-        const underPriceProduts = tempProducts.filter((product) => {
-            if (product.discountedPrice) {
-                return product.discountedPrice < price;
-            } else {
-                return product.selling_price < price;
-            }
-        })
+        // const filteredProducts = underPriceProduts.filter((product) => {
+        //     const matchesBrands = selectedFilters.brands.length === 0 ||
+        //         selectedFilters.brands.some(eachBrand => product.brand.toLowerCase() === eachBrand.toLowerCase());
 
-        const filteredProducts = underPriceProduts.filter((product) => {
-            const matchesBrands = selectedFilters.brands.length === 0 ||
-                selectedFilters.brands.some(eachBrand => product.brand.toLowerCase() === eachBrand.toLowerCase());
+        //     const matchesColors = selectedFilters.colors.length === 0 ||
+        //         selectedFilters.colors.some(eachColor => product.color.toLowerCase() === eachColor.toLowerCase());
 
-            const matchesColors = selectedFilters.colors.length === 0 ||
-                selectedFilters.colors.some(eachColor => product.color.toLowerCase() === eachColor.toLowerCase());
+        //     return matchesBrands && matchesColors;
+        // });
 
-            // Improved size matching logic (optional):
-            const matchesSizes = selectedFilters.sizes.length === 0 ||
-                product.size.some(productSize => selectedFilters.sizes.includes(productSize.name));
+        // const finalProducts = filteredProducts.filter((item) => item).sort((a, b) => {
+        //     if (sortOption === 'price-low-high') {
+        //         return a.discountedPrice - b.discountedPrice;
+        //     } else if (sortOption === 'price-high-low') {
+        //         return b.discountedPrice - a.discountedPrice;
+        //     }
+        //     return 0;
+        // });
 
-            return matchesBrands && matchesColors && matchesSizes;
-        });
-
-        const finalProducts = filteredProducts.filter((item) => item).sort((a, b) => {
-            if (sortOption === 'price-low-high') {
-                return a.discountedPrice - b.discountedPrice;
-            } else if (sortOption === 'price-high-low') {
-                return b.discountedPrice - a.discountedPrice;
-            }
-            // else if (sortOption === 'newest') {
-            //     return new Date(b.date) - new Date(a.date);
-            // }
-            return 0;
-        });
-
-        setFilteredProducts(finalProducts);
+        // setFilteredProducts(finalProducts);
 
         setIsLoading(false); // Reset loading state after filtering
-        console.log('triggered::::')
+        // console.log('triggered::::',finalProducts)
 
     }, [category, subcategory, thirdCategory, price, isFiltersOccur, sortOption, products]);
 
@@ -179,16 +139,15 @@ const Shopping = ({ product }) => {
         setSortOption(value);
     };
 
-    const randomFun = (event) => {
+    const setIndexFun1 = (event) => {
         const selectedCategory = event.target.value;
-        const mainCatArr = ['Men', 'Women', 'All'];
-        const subCatArr = ['Clothing', 'Accessories', 'Brands'];
+        const mainCatArr = ['Genres', 'Bestsellers', 'Authors', 'All'];
         mainCatArr.filter(each => {
             if (each.match(selectedCategory)) {
                 const selectedOption = event.target.options[event.target.selectedIndex];
                 const comingValue = selectedOption.getAttribute('data-categoryIndex');
                 console.log('selected category index from events : ', comingValue);
-                if (comingValue === '0' || comingValue === '1') {
+                if (comingValue !== '100') {
                     console.log("setting category index", comingValue)
                     setCategoryIndex(comingValue);
                 } else {
@@ -197,12 +156,17 @@ const Shopping = ({ product }) => {
             }
             return '';
         })
+
+    }
+    const setIndexFun2 = (event) => {
+        const selectedCategory = event.target.value;
+        const subCatArr = navigation.categories[categoryIndex].sections;
         subCatArr.filter(each => {
-            if (each.match(selectedCategory)) {
+            if (each.name.match(selectedCategory)) {
                 const selectedOption = event.target.options[event.target.selectedIndex];
                 const comingValue = selectedOption.getAttribute('data-categoryindex');
                 console.log('selected sub category index from events : ', comingValue);
-                if (comingValue === '0' || comingValue === '1' || comingValue === '2') {
+                if (comingValue !== '100') {
                     console.log("setting subcategory index", comingValue)
                     setSectionIndex(comingValue);
                 } else {
@@ -213,8 +177,31 @@ const Shopping = ({ product }) => {
         })
 
     }
+    const setIndexFun3 = (event) => {
+        const selectedCategory = event.target.value;
+        const thirdCatArr = navigation.categories[categoryIndex].sections[sectionIndex].items;
+        thirdCatArr.filter(each => {
+            if (each.name.match(selectedCategory)) {
+                const selectedOption = event.target.options[event.target.selectedIndex];
+                const comingValue = selectedOption.getAttribute('data-categoryindex');
+                console.log('selected third category index from events : ', comingValue);
+                if (comingValue !== '100') {
+                    console.log("setting thirdcategory index", comingValue);
+                    setItemsIndex(comingValue);
+                } else {
+                    setItemsIndex(0);
+                }
+            }
+            return '';
+        })
+
+    }
+
 
     console.log("categoryIndex : ", categoryIndex);
+    console.log("sectionIndex : ", sectionIndex);
+    console.log("itemsIndex : ", itemsIndex);
+
 
     return (
         <Container>
@@ -227,7 +214,6 @@ const Shopping = ({ product }) => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={(e) => handleFilterSubmit(e)} onReset={(e) => handleFilterReset(e)}>
-                        {/* <h3 className="sr-only">Filters</h3> */}
                         {Object.entries(filters).map(([type, options]) => (
                             <Accordion key={type}>
                                 <Accordion.Item eventKey={type}>
@@ -264,7 +250,6 @@ const Shopping = ({ product }) => {
                     <Row>
                         <Col>
                             <Form.Group>
-                                {/* <Form.Label>Main Category</Form.Label> */}
                                 <Form.Control
                                     as="select"
                                     value={category}
@@ -273,7 +258,7 @@ const Shopping = ({ product }) => {
                                         setCategory(e.target.value);
                                         setSubcategory(""); // Reset subcategory
                                         setThirdCategory(""); // Reset thirdCategory
-                                        randomFun(e);
+                                        setIndexFun1(e);
                                     }}
                                 >
                                     <option value="All" data-categoryindex={100}>All</option>
@@ -295,14 +280,14 @@ const Shopping = ({ product }) => {
                                     onChange={(e) => {
                                         setSubcategory(e.target.value);
                                         setThirdCategory(""); // Reset thirdCategory
-                                        randomFun(e);
+                                        setIndexFun2(e);
                                     }}
                                     disabled={!category || category === "All"}
                                 >
                                     <option value="" data-categoryindex={100}>Select Subcategory : </option>
                                     {category === navigation.categories[categoryIndex].name && (
                                         navigation.categories[categoryIndex].sections.map((eachSection, index) => {
-                                            return <option value={eachSection.name} data-categoryindex={index}>{eachSection.name}</option>
+                                            return <option value={eachSection.name} data-categoryindex={index} key={index}>{eachSection.name}</option>
                                         })
                                     )}
                                 </Form.Control>
@@ -310,19 +295,19 @@ const Shopping = ({ product }) => {
                         </Col>
                         <Col>
                             <Form.Group>
-                                {/* <Form.Label>Third Category</Form.Label> */}
                                 <Form.Control
                                     as="select"
                                     value={thirdCategory}
                                     onChange={(e) => {
                                         setThirdCategory(e.target.value)
+                                        setIndexFun3(e);
                                     }}
                                     disabled={!subcategory}
                                 >
-                                    <option value="">Select Third Category : </option>
+                                    <option value="" data-categoryindex={100}>Select Third Category : </option>
                                     {subcategory === navigation.categories[categoryIndex].sections[sectionIndex].name && category === navigation.categories[categoryIndex].name && (
-                                        navigation.categories[categoryIndex].sections[sectionIndex].items.map((eachItem) => {
-                                            return <option value={eachItem.id}>{eachItem.name}</option>
+                                        navigation.categories[categoryIndex].sections[sectionIndex].items.map((eachItem, index) => {
+                                            return <option value={eachItem.name} data-categoryindex={index} key={index}>{eachItem.name}</option>
                                         })
                                     )}
 
@@ -338,7 +323,7 @@ const Shopping = ({ product }) => {
                     <Col md={3} className="d-none d-md-block">
                         <div>
                             <p style={{ marginBottom: '0px' }}>
-                                <input type="range" id="price" name="price" value={price} min="200" max="6000" onChange={e => setPrice(Number(e.target.value))} style={{ cursor: 'pointer' }}
+                                <input type="range" id="price" name="price" value={price} min="150" max="2500" onChange={e => setPrice(Number(e.target.value))} style={{ cursor: 'pointer' }}
                                 />
                             </p>
                             <p>
@@ -466,17 +451,12 @@ const ProductCard = ({ product }) => {
             <Card.Body>
                 <Card.Title id='product-card-title'>{product.title}</Card.Title>
                 <Card.Text>
-                    {/* <div id='product-card-title'><strong>Brand:</strong> {product.brand}</div> */}
-                    {/* <strong>Price:</strong> {product.discountedPrice ? `₹${product.discountedPrice}` : product.selling_price} <br />
-                    <strong>Original Price:</strong> <s>₹{product.price}</s> <br />
-                    <strong>Discount:</strong> {product.discountPersent}% off <br /> */}
-                    {/* <strong>Available Sizes:</strong>{" "}
-                    {product.size.map((s, idx) => (
-                        <span key={idx}>{s.name}{idx < product.size.length - 1 ? ', ' : ''}</span>
-                    ))} */}
-                    <span id="disc-price">{product.discountedPrice ? `₹${new Intl.NumberFormat('en-IN').format(product.discountedPrice)}` : `${new Intl.NumberFormat('en-IN').format(product.selling_price)}`}</span>
+                    {/* <span id="disc-price">{product.discountedPrice ? `₹${new Intl.NumberFormat('en-IN').format(product.discountedPrice)}` : `${new Intl.NumberFormat('en-IN').format(product.selling_price)}`}</span>
                     <span className="text-decoration-line-through">{`₹${new Intl.NumberFormat('en-IN').format(product.price)}`}</span>
-                    <span className="text-success"> {product.discountPersent}% off</span>
+                    <span className="text-success"> {product.discountPercent}% off</span> */}
+                    <span id="disc-price">{Math.floor(Math.random()*1000)}</span>
+                    <span className="text-decoration-line-through">800</span>
+                    <span className="text-success">50% off</span>
                 </Card.Text>
                 <button className="btn btn-light w-100" onClick={handleAddToCart}><CartPlus color="#81D4FA" size={20} /></button>
 

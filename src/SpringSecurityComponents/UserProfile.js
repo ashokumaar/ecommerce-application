@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { userProfile } from './ControllerAPIs';
+import { userProfile } from '../APIs/AuthServiceAPIs';
 import { decodeToken, isExpired } from 'react-jwt'
 import { useNavigate } from 'react-router-dom';
 import LoginForm from './LoginForm';
@@ -24,13 +24,14 @@ const UserProfile = () => {
             getUserProfile(jwtToken);
         } else if (jwtToken) {
             alert("your session has expired, please login again ")
+            sessionStorage.setItem('SessionExpired',true);
             localStorage.removeItem('token')
             navigate('/')
         } else {
             // localStorage.removeItem('token')
             navigate('/auth/user/userProfile')
         }
-    }, [])
+    }, [jwtToken])
 
     const getUserProfile = async () => {
         let response = await userProfile(jwtToken)

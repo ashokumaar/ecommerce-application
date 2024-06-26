@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { registerUser, generateToken, checkUsernameExist } from './ControllerAPIs';
+import { registerUser, generateToken, checkUsernameExist, userProfile } from '../APIs/AuthServiceAPIs';
 import { useUserContext } from './UserContext';
 import '../CSS/LoginForm.css'
 
 const SignUp = () => {
     const [userInfo, setUserInfo] = useState({ username: '', password: '', email: '', phone: '', roles: ['ROLE_USER'] })
     const [userFoundError, setUserFoundError] = useState(false);
-    const { handleLogin } = useUserContext();
+    const { handleLogin, handleSetUser } = useUserContext();
     const navigate = useNavigate();
 
     const generateToken2 = async (payload) => {
@@ -20,8 +20,12 @@ const SignUp = () => {
             handleLogin(token); // Update context with the received JWT token
             toast.success('login success')
             sessionStorage.removeItem('AuthUsername');
-            sessionStorage.removeItem('AuthPassword')
+            sessionStorage.removeItem('AuthPassword');
+            sessionStorage.removeItem('SessionExpired');
             navigate('/');
+            let response = await userProfile(token);
+            let data = await response.data;
+            handleSetUser(data);
         } else {
             console.log('login failed ', response.statusText);
         }
@@ -46,7 +50,7 @@ const SignUp = () => {
             // let data = response.data;
             console.log(promise);
             if (promise.status === 200) {
-                console.log("Register success✔️")
+                console.log("Register success✔")
                 await new Promise(resolve => setTimeout(resolve, 3000));
                 generateToken2({ username: sessionStorage.getItem('AuthUsername'), password: sessionStorage.getItem('AuthPassword') });
             }

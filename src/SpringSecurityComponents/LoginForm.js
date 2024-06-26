@@ -2,13 +2,13 @@ import React from 'react';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { generateToken } from './ControllerAPIs';
+import { generateToken, userProfile } from '../APIs/AuthServiceAPIs';
 import { useUserContext } from './UserContext';
 import '../CSS/LoginForm.css'
 
 const LoginForm = () => {
     const [authRequest, setAuthRequest] = useState({ username: '', password: '' })
-    const { handleLogin } = useUserContext();
+    const { handleLogin, handleSetUser } = useUserContext();
     const navigate = useNavigate()
 
     const submitHandle = async (e) => {
@@ -22,7 +22,11 @@ const LoginForm = () => {
             toast.success("Login Success", {
                 autoClose: 2000
             });
+            sessionStorage.removeItem('SessionExpired');
             navigate('/')
+            let response = await userProfile(token);
+            let data = await response.data;
+            handleSetUser(data);
         } else {
             console.log('login failed ', response.statusText);
         }
@@ -44,14 +48,6 @@ const LoginForm = () => {
                 <span>Don't you have account, please </span>
                 <NavLink to='/auth/addNewUser' style={{ textDecoration: 'none', fontWeight: 'bold' }}><span>Sign-up</span></NavLink>
                 <span> now.</span>
-            </div>
-            <div>
-                <button onClick={() => {
-                        toast("clicked Success", {
-                            position: "top-center",
-                            autoClose: 2000
-                        });
-                }}>Click me</button>
             </div>
         </div>
     );

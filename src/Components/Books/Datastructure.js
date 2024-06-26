@@ -18,7 +18,7 @@ const booksNavigation = {
                 },
                 {
                     id: 'non_fiction',
-                    name: 'Non-Fiction',
+                    name: 'Non Fiction',
                     items: [
                         { name: 'Biographies', id: 'biographies' },
                         { name: 'Self-Help', id: 'self_help' },
@@ -30,7 +30,7 @@ const booksNavigation = {
                 },
                 {
                     id: 'children',
-                    name: 'Children\'s Books',
+                    name: 'Childrens Books',
                     items: [
                         { name: 'Picture Books', id: 'picture_books' },
                         { name: 'Early Readers', id: 'early_readers' },
@@ -64,7 +64,7 @@ const booksNavigation = {
                     items: [
                         { name: 'Fiction Bestsellers', id: 'fiction_bestsellers' },
                         { name: 'Non-Fiction Bestsellers', id: 'non_fiction_bestsellers' },
-                        { name: 'Children\'s Bestsellers', id: 'childrens_bestsellers' },
+                        { name: 'Childrens Bestsellers', id: 'childrens_bestsellers' },
                     ],
                 },
                 {

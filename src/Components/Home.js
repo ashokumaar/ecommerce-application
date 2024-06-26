@@ -3,7 +3,6 @@ import React from 'react';
 import NavBarServices from '../SpringSecurityComponents/NavBarServices';
 import RMC1 from './RMC1';
 import HomePageCarousel from './HomePageCarousel';
-import Shopping2 from './Shopping';
 
 const img1 = 'https://m.media-amazon.com/images/G/31/img24/Fashion/AF/HTop/Hero/13thMay/Top_Herotator_PC._CB556939346_.png';
 const img2 = 'https://m.media-amazon.com/images/G/31/img24/Fashion/AF/SS24/Flip/TopHero/PC/cml-pc._CB580671423_.jpg';
@@ -28,7 +27,6 @@ const Home = () => {
             <RMC1 value={card}/> 
             <RMC1 value={card}/>
             {/* <RMC1 value={card}/> */}
-            <Shopping2/>
         </div>
     );
 }

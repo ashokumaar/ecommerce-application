@@ -50,6 +50,13 @@ const fashionNavigation = {
                         { name: 'ZAYSH', id: 'ZAYSH' },
                     ],
                 },
+                {
+                    id: 'shoes',
+                    name: 'Shoes',
+                    items: [
+
+                    ]
+                }
             ],
             featured: [
                 {
