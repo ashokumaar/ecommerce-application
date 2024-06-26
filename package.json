@@ -1,5 +1,4 @@
 {
-  "homepage":"https://ashokumaar.github.io/ecommerce-application",
   "name": "ecommerce-project",
   "version": "0.1.2",
   "private": true,
@@ -22,11 +21,14 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "predeploy":"npm run build",
-    "deploy":"gh-pages -d build",
+    "predeploy:gh-pages": "npm run build:gh-pages",
+    "deploy:gh-pages": "gh-pages -d build",
+    "build:gh-pages": "react-scripts build && npm run set-homepage",
+    "build:netlify": "CI= npm run build",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "set-homepage": "node set-homepage.js"
   },
   "eslintConfig": {
     "extends": [
@@ -49,5 +51,6 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "gh-pages": "^6.1.1"
-  }
+  },
+  "homepage": "https://ashokumaar.github.io/ecommerce-application"
 }
