@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/ecommerce-application/static/css/main.6c620716.css",
-    "main.js": "/ecommerce-application/static/js/main.9f0283fc.js",
+    "main.css": "/ecommerce-application/static/css/main.a65160f4.css",
+    "main.js": "/ecommerce-application/static/js/main.84c473a5.js",
     "static/media/revicons.eot": "/ecommerce-application/static/media/revicons.a77de540a38981833f9e.eot",
     "static/media/revicons.ttf": "/ecommerce-application/static/media/revicons.57fd05d4ae650374c8de.ttf",
     "static/media/revicons.woff": "/ecommerce-application/static/media/revicons.e8746a624ed098489406.woff",
     "index.html": "/ecommerce-application/index.html",
-    "main.6c620716.css.map": "/ecommerce-application/static/css/main.6c620716.css.map",
-    "main.9f0283fc.js.map": "/ecommerce-application/static/js/main.9f0283fc.js.map"
+    "main.a65160f4.css.map": "/ecommerce-application/static/css/main.a65160f4.css.map",
+    "main.84c473a5.js.map": "/ecommerce-application/static/js/main.84c473a5.js.map"
   },
   "entrypoints": [
-    "static/css/main.6c620716.css",
-    "static/js/main.9f0283fc.js"
+    "static/css/main.a65160f4.css",
+    "static/js/main.84c473a5.js"
   ]
 }
