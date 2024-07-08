@@ -54,7 +54,7 @@ const fashionNavigation = {
                     id: 'shoes',
                     name: 'Shoes',
                     items: [
-
+                        
                     ]
                 }
             ],
@@ -89,7 +89,7 @@ const fashionNavigation = {
                         { name: 'Tops', id: "top", href: `{women/clothing/tops}` },
                         { name: 'Dresses', id: "women_dress", href: '#' },
                         { name: 'Women Jeans', id: 'women_jeans' },
-                        { name: 'Lengha Choli', id: 'lengha_choli' },
+                        { name: 'Lengha Choli', id: 'lehenga_choli' },
                         { name: 'Sweaters', id: 'sweater' },
                         { name: 'T-Shirts', id: 't-shirt' },
                         { name: 'Jackets', id: 'jacket' },

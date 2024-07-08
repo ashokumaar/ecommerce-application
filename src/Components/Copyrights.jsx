@@ -12,6 +12,11 @@ const Copyrights = () => {
             <div className='footer fixed-bottom' id='footer' >
                 <div>Copyright ©️ 2024 - All rights are reserved.</div>
                 <div className='d-flex align-items-center'>
+                    <div id='linkedin-div'>
+                        <Link to='https://www.linkedin.com/in/ashok-kumar-v-g-42994221a' target='_blank'>
+                            <Linkedin size='23' id='linkedin' />
+                        </Link>
+                    </div>
                     <div id='github-div'>
                         <Link to='https://github.com/ashokumaar/' target='_blank'>
                             <Github size='24' color='black' id='github' />
@@ -20,11 +25,6 @@ const Copyrights = () => {
                     <div id='instagram-div' style={{ background: 'linear-gradient(115deg, #f9ce34, #ee2a7b, #6228d7)', borderRadius: '50%' }}>
                         <Link to='https://www.instagram.com/ashok_veeraboyini?igsh=c2l4bmx5Z3AxZjMx' target='_blank' style={{ padding: '0 1px' }}>
                             <Instagram size='20' color='white' id='instagram' />
-                        </Link>
-                    </div>
-                    <div id='linkedin-div'>
-                        <Link to='https://www.linkedin.com/in/ashok-kumar-v-g-42994221a' target='_blank'>
-                            <Linkedin size='23' id='linkedin' />
                         </Link>
                     </div>
                 </div>

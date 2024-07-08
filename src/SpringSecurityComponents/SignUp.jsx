@@ -6,7 +6,7 @@ import { useUserContext } from './UserContext';
 import '../CSS/LoginForm.css'
 
 const SignUp = () => {
-    const [userInfo, setUserInfo] = useState({ username: '', password: '', email: '', phone: '', roles: ['ROLE_USER'] })
+    const [userInfo, setUserInfo] = useState({ username: '', password: '', email: '', phone: '' })
     const [userFoundError, setUserFoundError] = useState(false);
     const { handleLogin, handleSetUser } = useUserContext();
     const navigate = useNavigate();
@@ -16,7 +16,6 @@ const SignUp = () => {
         let token = await response.data;
         console.log("GeneratedToken :: ", token);
         if (response.status === 200) {
-            console.log("Status code ::: 200");
             handleLogin(token); // Update context with the received JWT token
             toast.success('login success')
             sessionStorage.removeItem('AuthUsername');
@@ -40,15 +39,12 @@ const SignUp = () => {
             return;
         } else {
             setUserFoundError(false);
-            console.log("payload :: ", userInfo);
             let response = registerUser(userInfo)
             let promise = await toast.promise(response, {
                 pending: "registration pending",
                 success: "register successfull",
                 error: "something went wrong!",
             });
-            // let data = response.data;
-            console.log(promise);
             if (promise.status === 200) {
                 console.log("Register success✔")
                 await new Promise(resolve => setTimeout(resolve, 3000));

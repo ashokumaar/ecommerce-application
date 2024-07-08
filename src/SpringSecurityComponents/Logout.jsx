@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useUserContext } from '../SpringSecurityComponents/UserContext'
+import { useUserContext } from './UserContext'
 
 const Logout = () => {
     const navigate = useNavigate();
@@ -12,9 +12,8 @@ const Logout = () => {
         if (!hasLoggedOut) {
             handleLogout();
             toast.success("Logout Success", {
-                autoClose: 5000
+                autoClose: 3000
             });
-            // Redirect to login page after a short delay to allow toast display
             setTimeout(() => navigate('/auth/login'), 1500);
             sessionStorage.setItem('hasLoggedOut', 'true');
         }

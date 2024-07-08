@@ -4,16 +4,12 @@ import { X, Filter, CartPlus } from 'react-bootstrap-icons';
 import { useUserContext } from "../../SpringSecurityComponents/UserContext";
 import navigation from './Datastructure'
 import '../../CSS/Products.css'
-import electronicsData from './electronics.json';
 
-console.log(navigation.categories)
-console.log(electronicsData);
+const allItems = []
 
-const allItems = [...electronicsData]
 
 const filters = {
-    brands: ['Iqoo', 'Samsung', 'Xiaomi', 'Realme', 'Vivo', 'Oppo', 'Apple'],
-    colors: ['White', 'Black', 'Blue', 'Red'],
+
 };
 
 const sortOptions = [
@@ -39,7 +35,7 @@ const Shopping = ({ product }) => {
     const [categoryIndex, setCategoryIndex] = useState(0);
     const [sectionIndex, setSectionIndex] = useState(0);
     const [itemsIndex, setItemsIndex] = useState(0);
-    const [price, setPrice] = useState(140000);
+    const [price, setPrice] = useState(1000);
     const [isLoading, setIsLoading] = useState(false); // Flag for loading state
 
     useEffect(() => {
@@ -48,7 +44,7 @@ const Shopping = ({ product }) => {
     }, [])
 
     useEffect(() => {
-        // Filter logic based on category, subcategory, and thirdCategory
+
         let tempProducts = products;
 
         setIsLoading(true); // Reset loading state after filtering
@@ -60,20 +56,32 @@ const Shopping = ({ product }) => {
 
         if (subcategory) {
             tempProducts = tempProducts.filter(
-                (product) => product.secondLavelCategory.includes(subcategory)
+                (product) => {
+                    if (subcategory === 'Clothing')
+                        return product.secondLavelCategory;
+                    else if (subcategory === 'Brands')
+                        return product.brand;
+                    else
+                        return product.accessories;
+
+                }
             );
         }
 
         if (thirdCategory) {
             tempProducts = tempProducts.filter(
                 (product) => {
-                    // console.log('3rd cat :: ', navigation.categories[categoryIndex].sections[sectionIndex].items[itemsIndex].id)
-                    return product.thirdLavelCategory === thirdCategory || product.brand.toLowerCase()===thirdCategory;
+                    if (subcategory === 'Clothing')
+                        return product.thirdLavelCategory === thirdCategory;
+                    else if (subcategory === 'Brands')
+                        return product.brand === thirdCategory;
+                    else
+                        return product.accessories === thirdCategory;
                 }
             );
         }
 
-        const underPriceProduts = tempProducts.filter((product) => {
+        const underPriceProducts = tempProducts.filter((product) => {
             if (product.discountedPrice) {
                 return product.discountedPrice < price;
             } else {
@@ -81,14 +89,18 @@ const Shopping = ({ product }) => {
             }
         })
 
-        const filteredProducts = underPriceProduts.filter((product) => {
+        const filteredProducts = underPriceProducts.filter((product) => {
             const matchesBrands = selectedFilters.brands.length === 0 ||
                 selectedFilters.brands.some(eachBrand => product.brand.toLowerCase() === eachBrand.toLowerCase());
 
             const matchesColors = selectedFilters.colors.length === 0 ||
                 selectedFilters.colors.some(eachColor => product.color.toLowerCase() === eachColor.toLowerCase());
 
-            return matchesBrands && matchesColors;
+            // Improved size matching logic (optional):
+            const matchesSizes = selectedFilters.sizes.length === 0 ||
+                product.size.some(productSize => selectedFilters.sizes.includes(productSize.name));
+
+            return matchesBrands && matchesColors && matchesSizes;
         });
 
         const finalProducts = filteredProducts.filter((item) => item).sort((a, b) => {
@@ -97,13 +109,15 @@ const Shopping = ({ product }) => {
             } else if (sortOption === 'price-high-low') {
                 return b.discountedPrice - a.discountedPrice;
             }
+            // else if (sortOption === 'newest') {
+            //     return new Date(b.date) - new Date(a.date);
+            // }
             return 0;
         });
 
         setFilteredProducts(finalProducts);
 
         setIsLoading(false); // Reset loading state after filtering
-        console.log('triggered::::')
 
     }, [category, subcategory, thirdCategory, price, isFiltersOccur, sortOption, products]);
 
@@ -117,7 +131,6 @@ const Shopping = ({ product }) => {
             } else {
                 newFilters[type] = [...newFilters[type], value];
             }
-            console.log("newFilters :: ", newFilters);
             return newFilters;
         });
     };
@@ -134,20 +147,17 @@ const Shopping = ({ product }) => {
     }
 
     const handleSortChange = (value) => {
-        console.log('sort option triggered :: ', value)
         setSortOption(value);
     };
 
     const setIndexFun1 = (event) => {
         const selectedCategory = event.target.value;
-        const mainCatArr = ['Mobiles', 'Smartwatches', 'Laptops', 'Tablets', 'All'];
+        const mainCatArr = ['Fruits', 'Vegetables', 'Dairy', 'Beverages', 'All'];
         mainCatArr.filter(each => {
             if (each.match(selectedCategory)) {
                 const selectedOption = event.target.options[event.target.selectedIndex];
                 const comingValue = selectedOption.getAttribute('data-categoryIndex');
-                console.log('selected category index from events : ', comingValue);
                 if (comingValue !== '100') {
-                    console.log("setting category index", comingValue)
                     setCategoryIndex(comingValue);
                 } else {
                     setCategoryIndex(0);
@@ -164,9 +174,7 @@ const Shopping = ({ product }) => {
             if (each.name.match(selectedCategory)) {
                 const selectedOption = event.target.options[event.target.selectedIndex];
                 const comingValue = selectedOption.getAttribute('data-categoryindex');
-                console.log('selected sub category index from events : ', comingValue);
                 if (comingValue !== '100') {
-                    console.log("setting subcategory index", comingValue)
                     setSectionIndex(comingValue);
                 } else {
                     setSectionIndex(0);
@@ -183,9 +191,7 @@ const Shopping = ({ product }) => {
             if (each.name.match(selectedCategory)) {
                 const selectedOption = event.target.options[event.target.selectedIndex];
                 const comingValue = selectedOption.getAttribute('data-categoryindex');
-                console.log('selected third category index from events : ', comingValue);
                 if (comingValue !== '100') {
-                    console.log("setting thirdcategory index", comingValue);
                     setItemsIndex(comingValue);
                 } else {
                     setItemsIndex(0);
@@ -195,12 +201,10 @@ const Shopping = ({ product }) => {
         })
 
     }
-
-
+    
     console.log("categoryIndex : ", categoryIndex);
     console.log("sectionIndex : ", sectionIndex);
     console.log("itemsIndex : ", itemsIndex);
-
 
     return (
         <Container>
@@ -213,6 +217,7 @@ const Shopping = ({ product }) => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={(e) => handleFilterSubmit(e)} onReset={(e) => handleFilterReset(e)}>
+                        {/* <h3 className="sr-only">Filters</h3> */}
                         {Object.entries(filters).map(([type, options]) => (
                             <Accordion key={type}>
                                 <Accordion.Item eventKey={type}>
@@ -303,10 +308,10 @@ const Shopping = ({ product }) => {
                                     }}
                                     disabled={!subcategory}
                                 >
-                                    <option value="" data-categoryindex={100}>Select Third Category : </option>
+                                    <option value="">Select Third Category : </option>
                                     {subcategory === navigation.categories[categoryIndex].sections[sectionIndex].name && category === navigation.categories[categoryIndex].name && (
-                                        navigation.categories[categoryIndex].sections[sectionIndex].items.map((eachItem, index) => {
-                                            return <option value={eachItem.name} data-categoryindex={index} key={index}>{eachItem.name}</option>
+                                        navigation.categories[categoryIndex].sections[sectionIndex].items.map((eachItem) => {
+                                            return <option value={eachItem.id}>{eachItem.name}</option>
                                         })
                                     )}
 
@@ -322,7 +327,7 @@ const Shopping = ({ product }) => {
                     <Col md={3} className="d-none d-md-block">
                         <div>
                             <p style={{ marginBottom: '0px' }}>
-                                <input type="range" id="price" name="price" value={price} min="200" max="140000" onChange={e => setPrice(Number(e.target.value))} style={{ cursor: 'pointer' }}
+                                <input type="range" id="price" name="price" value={price} min="200" max="6000" onChange={e => setPrice(Number(e.target.value))} style={{ cursor: 'pointer' }}
                                 />
                             </p>
                             <p>
@@ -395,19 +400,22 @@ const Shopping = ({ product }) => {
                             ) :
                                 (
                                     filteredProducts.length === 0 ?
-                                        <h1>No items on your selected options</h1>
-                                        : filteredProducts.map((product, idx) => (
-                                            <Col key={idx} xs={6} sm={4} md={4} lg={3}>
-                                                <ProductCard product={product} />
-                                            </Col>
-                                        )))
+                                        //<h1>No items on your selected options</h1>
+                                        <h1>No items in the database</h1>
+                                        : <div>No items in the database</div>
+                                    //filteredProducts.map((product, idx) => (
+                                    //    <Col key={idx} xs={6} sm={4} md={4} lg={3}>
+                                    //        <ProductCard product={product} />
+                                    //    </Col>
+                                    //))
+                                )
                             }
                         </Row>
                     </Col>
                 </Row>
             </section>
 
-            <Row className='position-sticky bg-white d-md-none' style={{ bottom: '20px' }}>
+            <Row className='footer fixed-bottom bg-white d-md-none' style={{ bottom: '15px' }}>
                 <div className="d-flex justify-content-evenly align-items-center">
                     <Dropdown>
                         <Dropdown.Toggle variant="link" className="text-decoration-none text-dark">
@@ -452,7 +460,7 @@ const ProductCard = ({ product }) => {
                 <Card.Text>
                     <span id="disc-price">{product.discountedPrice ? `₹${new Intl.NumberFormat('en-IN').format(product.discountedPrice)}` : `${new Intl.NumberFormat('en-IN').format(product.selling_price)}`}</span>
                     <span className="text-decoration-line-through">{`₹${new Intl.NumberFormat('en-IN').format(product.price)}`}</span>
-                    <span className="text-success"> {product.discountPercent}% off</span>
+                    <span className="text-success"> {product.discountPersent}% off</span>
                 </Card.Text>
                 <button className="btn btn-light w-100" onClick={handleAddToCart}><CartPlus color="#81D4FA" size={20} /></button>
 
