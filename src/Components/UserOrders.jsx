@@ -74,7 +74,7 @@ const UserOrders = () => {
                                 <div key={item.id} className="col-md-12">
                                     {index > 0 && <hr />}
                                     <div className="card-subtitle mb-2 text-muted">
-                                        last updated at : {modifyDate(item.updatedAt)}
+                                        last updated at: {modifyDate(item.updatedAt)}
                                     </div>
                                     <div className="d-flex justify-content-around align-items-center px-4">
                                         <div className={`circle ${getStatusStepClass(item.status, 'Order Confirmed')}`}>

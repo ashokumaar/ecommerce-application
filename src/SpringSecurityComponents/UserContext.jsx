@@ -38,6 +38,7 @@ export const UserContextProvider = ({ children }) => {
     const [fashionProducts, setFashionProducts] = useState([]);
     const [booksProducts, setBooksProducts] = useState([]);
     const [electronicsProducts, setElectronicsProducts] = useState([]);
+    const [isAdmin, setIsAdmin] = useState(null);
 
     const isMyTokenExpired = isExpired(jwtToken)
 
@@ -97,7 +98,9 @@ export const UserContextProvider = ({ children }) => {
                 sessionStorage.removeItem('User Details');
                 sessionStorage.removeItem('address added');
                 sessionStorage.removeItem('address updated');
+                localStorage.removeItem('isAdmin');
                 sessionStorage.setItem('SessionExpired', true);
+
                 // navigate('/');
             }
         }
@@ -202,6 +205,11 @@ export const UserContextProvider = ({ children }) => {
         sessionStorage.removeItem('hasLoggedOut');
     };
 
+    const handleAdmin = () => {
+        localStorage.setItem('isAdmin', true);
+        setIsAdmin(true);
+    }
+
     const handleLogout = () => {
         localStorage.removeItem('jwtToken');
         localStorage.removeItem('UserId');
@@ -209,9 +217,11 @@ export const UserContextProvider = ({ children }) => {
         sessionStorage.removeItem('address added');
         sessionStorage.removeItem('address updated');
         sessionStorage.removeItem('selected address for payment');
+        localStorage.removeItem('isAdmin');
         setJwtToken(null);
         setUser(null);
         setUserId(null);
+        setIsAdmin(null);
         setCart({})
         setCartItems([]);
         setItemsForPayment([]);
@@ -299,6 +309,7 @@ export const UserContextProvider = ({ children }) => {
                 handlePaymentItems,
                 handleLogin,
                 handleLogout,
+                handleAdmin,
                 addToCart,
                 removeFromCart,
                 updateQuantity,
@@ -308,7 +319,8 @@ export const UserContextProvider = ({ children }) => {
                 products,
                 booksProducts,
                 electronicsProducts,
-                fashionProducts
+                fashionProducts,
+                isAdmin
             }}
         >
             {children}

@@ -62,10 +62,26 @@ export const userDetails = async (token) => {
     }
 }
 
+export const isAdmin = async (token) => {
+    try {
+        return await axios.get(`${baseUrl}/auth/admin/isAdmin`, { headers: { Authorization: `Bearer ${token}` } });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 // -----------------User/Address related--------------getUserById
 export const getUserById = async (id, token) => {
     try {
         return await axios.get(`${baseUrl}/users/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const updateUser = async (id, payload, token) => {
+    try {
+        return await axios.put(`${baseUrl}/users/update/${id}`, payload, { headers: { Authorization: `Bearer ${token}` } });
     } catch (error) {
         console.log(error);
     }

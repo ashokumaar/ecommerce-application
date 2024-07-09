@@ -42,6 +42,7 @@ const SellerForm = () => {
             });
             console.log(promise);
             if (promise.status === 200) {
+                toast.success('Our team will get back to you and inspect soon. If they satisfied then you\'ll get the seller authorities.');
                 console.log("Application submitted success✔")
             }
         }
@@ -56,7 +57,7 @@ const SellerForm = () => {
         <>
             {token && <div>
                 <form className="form-signin" onSubmit={(e) => addUser(e)}>
-                    <h2 className="form-signin-heading">Create account</h2>
+                    <h2 className="form-signin-heading">Fill the form</h2>
                     <input type="text" id="username" name="username" className="form-control" value={userInfo.username} onChange={e => handleUserInputChange(e)} placeholder="Username (should be unique)" required />
                     {
                         userFoundError &&

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Button, Row, Col, ListGroup } from 'react-bootstrap';
-import AddressForm from './AddressForm'; // Import the AddressForm component
-import { getUserById, defaultAddress } from '../APIs/AuthServiceAPIs';
+import AddressForm from './AddressForm';
+import { getUserById, defaultAddress, updateUser } from '../APIs/AuthServiceAPIs';
 import { useUserContext } from '../SpringSecurityComponents/UserContext';
 import { toast } from 'react-toastify';
 
@@ -12,6 +12,7 @@ const UserSettings = () => {
     const [username, setUsername] = useState();
     const [email, setEmail] = useState();
     const [phone, setPhone] = useState();
+    // const [password, setPassword] = useState();
     const [isEditing, setIsEditing] = useState(false);
     const [isAddingAddress, setIsAddingAddress] = useState(false);
 
@@ -32,6 +33,10 @@ const UserSettings = () => {
         if (cachedUser) {
             console.log(cachedUser);
             setUser(cachedUser);
+            setUsername(cachedUser.username);
+            setEmail(cachedUser.email);
+            setPhone(cachedUser.phone);
+            
         } else {
             getUserDetails();
         }
@@ -49,6 +54,9 @@ const UserSettings = () => {
                     sessionStorage.removeItem('User Details');
                     sessionStorage.setItem('User Details', JSON.stringify(data));
                     setUser(data);
+                    setUsername(data.username);
+                    setEmail(data.email);
+                    setPhone(data.phone);
                 }
             } else {
                 toast.error('please login to see your details', { autoClose: 3000 });
@@ -58,14 +66,23 @@ const UserSettings = () => {
         }
     }
 
-    const handleUpdate = () => {
+    const handleUpdate = async () => {
         const updatedUser = {
             ...user,
-            username,
             email,
             phone,
+            // username,
+            // password
         };
-        setUser(updatedUser);
+        try {
+            const storedToken = localStorage.getItem('jwtToken');
+            const response = await updateUser(updatedUser.id, updatedUser, storedToken);
+            if(response.status===200){
+                setUser(updatedUser);
+            }
+        } catch (error) {
+            console.log(error, 'something went wrong!');
+        }
         setIsEditing(false);
     };
 
@@ -114,8 +131,9 @@ const UserSettings = () => {
                                         <Form.Label>Username</Form.Label>
                                         <Form.Control
                                             type="text"
-                                            value={username}
+                                            value={user.username}
                                             onChange={(e) => setUsername(e.target.value)}
+                                            disabled
                                         />
                                     </Form.Group>
                                     <Form.Group className="mb-3">
@@ -134,6 +152,14 @@ const UserSettings = () => {
                                             onChange={(e) => setPhone(e.target.value)}
                                         />
                                     </Form.Group>
+                                    {/* <Form.Group className="mb-3">
+                                        <Form.Label>Password</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                        />
+                                    </Form.Group> */}
                                     <Button variant="primary" onClick={handleUpdate}>Update</Button>
                                     <Button variant="secondary" className="ms-2" onClick={() => setIsEditing(false)}>Cancel</Button>
                                 </Form>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { isExpired } from 'react-jwt'
 import { List, House, Search, Cart4 } from 'react-bootstrap-icons'
@@ -7,12 +7,21 @@ import { useUserContext } from '../SpringSecurityComponents/UserContext';
 import '../CSS/HomeNavBar.css'
 
 const HomeNavBar = () => {
+    const { jwtToken, totalItems, isAdmin } = useUserContext();
     const [showSidebar, setShowSidebar] = useState(false); // State for offcanvas visibility
-    const { jwtToken, totalItems } = useUserContext();
+    const [admin, setAdmin] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [suggestions, setSuggestions] = useState([]);
     const [isInputActive, setIsInputActive] = useState(false); // State to track input focus
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const cachedAdmin = localStorage.getItem('isAdmin');
+        if (cachedAdmin || isAdmin) {
+            setAdmin(true);
+        }
+
+    }, [isAdmin])
 
     const names = ['mens shirts', 'mens pants', 'mens kurths', 'mens jeans', 'shoes', 'womens lehenga', 'womens dress', 'womens jeans', 'womens tops', 'mobiles', 'books', 'software engineering', 'java', 'internet', 'microsoft .net', 'web development', 'programming', 'python', 'object-oriented programming']; // Sample names list
 
@@ -134,6 +143,14 @@ const HomeNavBar = () => {
                                     Become a seller!
                                 </NavLink>
                             </li>
+                            {
+                                admin &&
+                                <li className='list-group-item'>
+                                    <NavLink to='/admin' onClick={handleCloseSidebar}>
+                                        Admin page (manage order statuses)
+                                    </NavLink>
+                                </li>
+                            }
                         </ul>
                     </Offcanvas.Body>
                 </Offcanvas>

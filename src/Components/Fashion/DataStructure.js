@@ -153,4 +153,3 @@ const fashionNavigation = {
     ],
 }
 export default fashionNavigation;
-console.log(fashionNavigation);

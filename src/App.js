@@ -23,6 +23,7 @@ import AddressCheck from './Components/AddressCheck';
 import SearchResults from './Components/SearchResults';
 import PlaceOrder from './Components/PlaceOrder';
 import SellerForm from './Components/SellerForm';
+import Admin from './SpringSecurityComponents/AdminPage';
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
         <Route path='/travel' element={<Travel/>}/>
         <Route path='settings' element={<Settings/>} />
         <Route path='/seller' element={<SellerForm/>}/>
+        <Route path='/admin' element={<Admin/>} />
         <Route path='/helloworld' element={<HelloWorld/>}/>
         <Route path='*' element={<NotFound />} />
       </Routes>
