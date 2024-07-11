@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import Carousel from 'react-multi-carousel';
 import { Card } from "react-bootstrap";
@@ -15,6 +15,24 @@ const RMC2 = (props) => {
     const { addToCart } = useUserContext();
     const [currentSlide, setCurrentSlide] = useState(0);
     const carouselRef = useRef(null);
+    const [cardHeight, setCardHeight] = useState(0); // State to store the height of cards
+
+    // Effect to set the height of the cards
+    useEffect(() => {
+        const updateCardHeight = () => {
+            const cardElements = document.querySelectorAll('.card');
+            if (cardElements.length > 0) {
+                const maxHeight = Math.max(...Array.from(cardElements).map(card => card.offsetHeight));
+                setCardHeight(maxHeight);
+            }
+        };
+        updateCardHeight();
+        window.addEventListener('resize', updateCardHeight);
+
+        return () => {
+            window.removeEventListener('resize', updateCardHeight);
+        };
+    }, [cards]);
 
     const responsive = {
         superLargeDesktop: {
@@ -51,11 +69,13 @@ const RMC2 = (props) => {
             <Carousel ref={carouselRef} responsive={responsive} beforeChange={(nextSlide) => setCurrentSlide(nextSlide)}>
                 {cards.length > 0 && cards[0] !== undefined && cards.map((eachCard, index) => (
                     <div key={index} className="card-wrapper">
-                        <Card className="mb-4" id='card'>
+                        <Card className="mb-4" id='card' style={{ height: index === cards.length - 1 ? `${cardHeight}px` : 'auto' }}>
                             {
                                 (index === cards.length - 1) ?
                                     <>
-                                        <div style={{height:'273px',display:'flex', alignItems:'center', justifyContent:'center'}}><NavLink to={link}>See more</NavLink></div>
+                                        <div id="see-more-card">
+                                            <NavLink to={link}>See more</NavLink>
+                                        </div>
                                     </> :
                                     <>
                                         <Card.Img style={{ objectFit: 'contain' }} variant="top" src={eachCard.imageUrl} alt={eachCard.title} />
