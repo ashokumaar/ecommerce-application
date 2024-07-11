@@ -1,4 +1,39 @@
 [[redirects]]
+  from = "/auth/*"
+  to = "http://35.239.66.104:8888/auth/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/users/*"
+  to = "http://35.239.66.104:8888/users/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/carts/*"
+  to = "http://35.239.66.104:8888/carts/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/orders/*"
+  to = "http://35.239.66.104:8888/orders/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/books/*"
+  to = "http://35.239.66.104:8888/books/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/electronics/*"
+  to = "http://35.239.66.104:8888/electronics/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/fashion/*"
+  to = "http://35.239.66.104:8888/fashion/:splat"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
