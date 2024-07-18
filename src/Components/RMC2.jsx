@@ -64,12 +64,12 @@ const RMC2 = (props) => {
         addToCart(product);
     };
     return (
-        <Container className='mt-4 mb-2'>
+        <Container className='my-3'>
             <h4 style={{ textAlign: "start", paddingLeft: '10px' }}>{heading}</h4>
             <Carousel ref={carouselRef} responsive={responsive} beforeChange={(nextSlide) => setCurrentSlide(nextSlide)}>
                 {cards.length > 0 && cards[0] !== undefined && cards.map((eachCard, index) => (
                     <div key={index} className="card-wrapper">
-                        <Card className="mb-4" id='card' style={{ height: index === cards.length - 1 ? `${cardHeight}px` : 'auto' }}>
+                        <Card className="mb-1" id='card' style={{ height: index === cards.length - 1 ? `${cardHeight}px` : 'auto' }}>
                             {
                                 (index === cards.length - 1) ?
                                     <>

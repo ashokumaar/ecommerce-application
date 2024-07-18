@@ -41,12 +41,12 @@ const Home = () => {
     // const token = useContext(UserContext);
 
     return (
-        <div>
+        <div className='mb-2'>
             <NavBarServices />
             <HomePageCarousel img1={img1} img2={img2} img3={img3} />
             <RMC2 value={fashionCards} heading='Fashion products' link='/fashion'/>
             <RMC2 value={booksCards} heading='Books' link='/books'/>
-            <RMC2 value={electronicsCards} heading='Electronics products' link='/electronics'/>
+            <RMC2 style={{margin:'50px'}} value={electronicsCards} heading='Electronics products' link='/electronics'/>
         </div>
     );
 }

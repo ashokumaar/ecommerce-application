@@ -35,11 +35,11 @@ const Shopping = ({ product }) => {
     const [sectionIndex, setSectionIndex] = useState(0);
     const [itemsIndex, setItemsIndex] = useState(0);
     const [price, setPrice] = useState(140000);
-    const [isLoading, setIsLoading] = useState(false); // Flag for loading state
+    const [isLoading, setIsLoading] = useState(true); // Flag for loading state
 
     useEffect(() => {
         const fetch = async () => {
-            setIsLoading(true);
+            setIsLoading(true); // Start loading state
             try {
                 const data = electronicsProducts;
                 setProducts(data);
@@ -47,7 +47,7 @@ const Shopping = ({ product }) => {
             } catch (error) {
                 console.error('Failed to fetch products:', error);
             } finally {
-                setIsLoading(false);
+                setIsLoading(false); // End loading state
             }
         };
         fetch();
@@ -391,17 +391,14 @@ const Shopping = ({ product }) => {
                     <Col md={9}>
                         <Row>
                             {isLoading ? (
-                                <div>Loading Products...</div>
-                            ) :
-                                (
-                                    filteredProducts.length === 0 ?
-                                        <h1>No items on your selected options</h1>
-                                        : filteredProducts.map((product, idx) => (
-                                            <Col key={idx} xs={6} sm={4} md={4} lg={3}>
-                                                <ProductCard product={product} />
-                                            </Col>
-                                        )))
-                            }
+                                <div>Loading...</div>
+                            ) : (
+                                filteredProducts.length > 0 ? (
+                                    filteredProducts.map((product, index) => (
+                                        <Col key={index} xs={6} sm={4} md={4} lg={3}>
+                                            <ProductCard product={product} />
+                                        </Col>))) : (<div>No products available</div>)
+                            )}
                         </Row>
                     </Col>
                 </Row>

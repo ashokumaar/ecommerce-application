@@ -463,7 +463,7 @@ const ProductCard = ({ product }) => {
                     {product.size.map((s, idx) => (
                         <span key={idx}>{s.name}{idx < product.size.length - 1 ? ', ' : ''}</span>
                     ))} */}
-                    <p>id : {product.id}</p>
+                    {/* <p>id : {product.id}</p> */}
                     <span id="disc-price">{product.discountedPrice ? `₹${new Intl.NumberFormat('en-IN').format(product.discountedPrice)}` : `${new Intl.NumberFormat('en-IN').format(product.selling_price)}`}</span>
                     <span className="text-decoration-line-through">{`₹${new Intl.NumberFormat('en-IN').format(product.price)}`}</span>
                     <span className="text-success"> {product.discountPercent}% off</span>

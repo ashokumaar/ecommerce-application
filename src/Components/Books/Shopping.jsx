@@ -34,15 +34,14 @@ const Shopping = ({ product }) => {
     const [sectionIndex, setSectionIndex] = useState(0);
     const [itemsIndex, setItemsIndex] = useState(0);
     const [price, setPrice] = useState(1000);
-    const [isLoading, setIsLoading] = useState(false);
-
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetch = async () => {
             setIsLoading(true);
             try {
                 const data = booksProducts;
-                setProducts(data);
+                setProducts(data);          
                 setFilteredProducts(data);
             } catch (error) {
                 console.error('Failed to fetch products:', error);
@@ -55,7 +54,7 @@ const Shopping = ({ product }) => {
 
     useEffect(() => {
         let tempProducts = products;
-        setIsLoading(true); // Reset loading state after filtering
+        setIsLoading(true); // Set loading to true before filtering
         if (category && category !== "All") {
             tempProducts = tempProducts.filter(
                 (product) => product.topLevelCategory === category
@@ -309,7 +308,7 @@ const Shopping = ({ product }) => {
 
             </Form>
             <section className="py-2">
-                <span>Total {filteredProducts.length} {filteredProducts.length > 1 ? 'items' : 'item'}</span>
+
                 <Row>
                     <Col md={3} className="d-none d-md-block">
                         <div>
@@ -385,11 +384,13 @@ const Shopping = ({ product }) => {
                             {isLoading ? (
                                 <div>Loading...</div>
                             ) : (
-                                filteredProducts.length > 0 ? (
+                                filteredProducts.length === 0 ? (
+                                    <div>No products found</div>
+                                ) : (
                                     filteredProducts.map((product, index) => (
-                                        <Col key={index} xs={6} sm={4} md={4} lg={3}>
+                                        <Col key={product.id} xs={6} sm={4} md={4} lg={3}>
                                             <ProductCard product={product} />
-                                        </Col>))) : (<div>No products available</div>)
+                                        </Col>)))
                             )}
                         </Row>
                     </Col>

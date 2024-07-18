@@ -18,40 +18,23 @@ const SearchResults = () => {
     const [mainCategory, setMainCategory] = useState('');
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [sortOption, setSortOption] = useState('');
-    const [price, setPrice] = useState(20000);
-    const [minPrice, setMinPrice] = useState(200);
-    const [maxPice, setMaxPrice] = useState(20000);
-    const [isLoading, setIsLoading] = useState(false);
+    const [price, setPrice] = useState(10000);
+    const [minPrice, setMinPrice] = useState(130);
+    const [maxPice, setMaxPrice] = useState(50000);
+    const [isLoading, setIsLoading] = useState(true);
+
+
+    // useEffect(() => {
+    //     handlePrice();
+    // }, [term])
 
     useEffect(() => {
         if (term && term.length > 0) {
             let searchTerms = term.toLowerCase().split(' ');
-            searchTerms.forEach(eachterm => {
-                eachterm = eachterm.toLocaleLowerCase();
-                if (eachterm === 'mens' || eachterm === 'men') {
-                    setMainCategory('mens');
-                    setMinPrice(140);
-                    setPrice(3000);
-                    setMaxPrice(7000);
-                } else if (eachterm === 'womens' || eachterm === 'women') {
-                    setMainCategory('womens');
-                    setMinPrice(140);
-                    setPrice(5000);
-                    setMaxPrice(20000);
-                } else if (eachterm === 'mobile' || ['apple', 'iphone', 'samsung'].some(brand => brand.includes(eachterm))) {
-                    setMinPrice(190);
-                    setPrice(125000);
-                    setMaxPrice(150000);
-                } else {
-                    setMinPrice(100);
-                    setPrice(3000);
-                    setMaxPrice(10000);
-                }
-            })
             // let searchTerm = term.toLowerCase().split(' '); //  split('/\s+/')
             setIsLoading(true);
             let tempProducts = products;
-            console.log(tempProducts);
+            // console.log(tempProducts);
             const categorizedProducts = tempProducts.filter(
                 (product) => {
                     return searchTerms.some((eachterm) => {
@@ -62,6 +45,10 @@ const SearchResults = () => {
                             eachterm = 'women'
                         } else if (eachterm === 'shirts'.toLowerCase()) {
                             eachterm = 'shirt';
+                        } else if (eachterm === 'pants') {
+                            eachterm = 'pant';
+                        } else if (eachterm === 'tops') {
+                            eachterm = 'top';
                         }
                         let topLevelCategory = null;
                         let secondLevelCategory = null;
@@ -72,29 +59,42 @@ const SearchResults = () => {
                         let category = null;
                         if (eachterm === 'men' || mainCategory === 'mens') {
                             //  && ((product.id >= 5000 && product.id <= 5199) || (product.id >= 5280 && product.id <= 5359))
-                            if ((product.id >= 5000 && product.id <= 5199) || (product.id >= 5280 && product.id <= 5359)) {
-                                if (product.thirdLevelCategory) {
-                                    thirdLevelCategory = product.thirdLevelCategory.toLowerCase().includes(eachterm)
-                                }
-                                if (product.secondLevelCategory && !thirdLevelCategory) {
-                                    secondLevelCategory = product.secondLevelCategory.toLowerCase().includes(eachterm)
-                                }
-                                if (product.topLevelCategory && !secondLevelCategory) {
-                                    topLevelCategory = product.topLevelCategory.toLowerCase().includes(eachterm)
-                                }
-                                if (product.title && !topLevelCategory) {
-                                    title = product.title.toLowerCase().includes(eachterm)
+                            if ((product.id >= 5000 && product.id <= 5119) || (product.id >= 5280 && product.id <= 5359)) {
+                                if (searchTerms.length === 1) {
+                                    return true;
+                                } else if (eachterm !== 'men') {
+                                    if (product.thirdLevelCategory) {
+                                        thirdLevelCategory = product.thirdLevelCategory.toLowerCase().includes(eachterm)
+                                    }
+                                    if (product.secondLevelCategory && !thirdLevelCategory) {
+                                        secondLevelCategory = product.secondLevelCategory.toLowerCase().includes(eachterm)
+                                    }
+                                    if (product.topLevelCategory && !secondLevelCategory) {
+                                        topLevelCategory = product.topLevelCategory.toLowerCase().includes(eachterm)
+                                    }
+                                    if (product.title && !topLevelCategory) {
+                                        title = product.title.toLowerCase().includes(eachterm)
+                                    }
                                 }
                             }
                         } else if (eachterm === 'women' || mainCategory === 'womens') {
                             //  && (product.id >= 5200 && product.id <= 5279)
                             if (product.id >= 5200 && product.id <= 5279) {
-                                if (product.thirdLevelCategory) {
-                                    thirdLevelCategory = product.thirdLevelCategory.toLowerCase().includes(eachterm)
-                                } else if (product.secondLevelCategory) {
-                                    secondLevelCategory = product.secondLevelCategory.toLowerCase().includes(eachterm)
-                                } else if (product.topLevelCategory) {
-                                    topLevelCategory = product.topLevelCategory.toLowerCase().includes(eachterm)
+                                if (searchTerms.length === 1) {
+                                    return true;
+                                } else if (eachterm !== 'women') {
+                                    if (product.thirdLevelCategory) {
+                                        thirdLevelCategory = product.thirdLevelCategory.toLowerCase().includes(eachterm)
+                                    }
+                                    if (product.secondLevelCategory && !thirdLevelCategory) {
+                                        secondLevelCategory = product.secondLevelCategory.toLowerCase().includes(eachterm)
+                                    }
+                                    if (product.topLevelCategory && !secondLevelCategory) {
+                                        topLevelCategory = product.topLevelCategory.toLowerCase().includes(eachterm)
+                                    }
+                                    if (product.title && !topLevelCategory) {
+                                        title = product.title.toLocaleLowerCase().includes(eachterm);
+                                    }
                                 }
                             }
                         } else {
@@ -103,9 +103,9 @@ const SearchResults = () => {
                             }
                             if (product.secondLevelCategory && !thirdLevelCategory) {
                                 secondLevelCategory = product.secondLevelCategory.toLowerCase().includes(eachterm)
-                            } 
+                            }
                             if (product.topLevelCategory && !secondLevelCategory) {
-                                if(eachterm==='book' || eachterm==='books'){
+                                if (eachterm === 'book' || eachterm === 'books') {
                                     topLevelCategory = product.topLevelCategory.toLowerCase().includes("genres")
                                 } else {
                                     topLevelCategory = product.topLevelCategory.toLowerCase().includes(eachterm)
@@ -113,11 +113,14 @@ const SearchResults = () => {
                             }
                             if (!topLevelCategory && !secondLevelCategory && !thirdLevelCategory) {
                                 title = product.title.toLowerCase().includes(eachterm)
-                            } else if (product.brand) {
+                            }
+                            if (product.brand && !title) {
                                 brand = product.brand.toLowerCase().includes(eachterm)
-                            } else if (product.color) {
+                            }
+                            if (product.color && !brand) {
                                 color = product.color.toLowerCase().includes(eachterm)
-                            } else if (product.categories) {
+                            }
+                            if (product.categories && !color) {
                                 category = product.categories.some((eachCategory => eachCategory.toLowerCase().includes(eachterm)))
                             }
                         }
@@ -151,6 +154,34 @@ const SearchResults = () => {
         }
     }, [term, sortOption, price])
 
+    // const handlePrice = () => {
+    //     if (term && term.length > 0) {
+    //         let searchTerms = term.toLowerCase().split(' ');
+    //         searchTerms.forEach(eachterm => {
+    //             eachterm = eachterm.toLocaleLowerCase();
+    //             if (eachterm === 'mens' || eachterm === 'men') {
+    //                 setMainCategory('mens');
+    //                 setMinPrice(140);
+    //                 setPrice(3000);
+    //                 setMaxPrice(7000);
+    //             } else if (eachterm === 'womens' || eachterm === 'women') {
+    //                 setMainCategory('womens');
+    //                 setMinPrice(140);
+    //                 setPrice(7000);
+    //                 setMaxPrice(20000);
+    //             } else if (eachterm === 'mobile' || ['apple', 'iphone', 'samsung'].some(brand => brand.includes(eachterm))) {
+    //                 setMinPrice(190);
+    //                 setPrice(125000);
+    //                 setMaxPrice(150000);
+    //             } else {
+    //                 setMinPrice(100);
+    //                 setPrice(7000);
+    //                 setMaxPrice(20000);
+    //             }
+    //         })
+    //     }
+    // }
+    
     const handleSortChange = (value) => {
         console.log('sort option triggered :: ', value)
         setSortOption(value);

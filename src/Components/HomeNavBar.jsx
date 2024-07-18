@@ -23,7 +23,7 @@ const HomeNavBar = () => {
 
     }, [isAdmin])
 
-    const names = ['mens shirts', 'mens pants', 'mens kurths', 'mens jeans', 'shoes', 'womens lehenga', 'womens dress', 'womens jeans', 'womens tops', 'mobiles', 'books', 'software engineering', 'java', 'internet', 'microsoft .net', 'web development', 'programming', 'python', 'object-oriented programming']; // Sample names list
+    const names = ['mens shirts', 'mens pants', 'mens kurthas', 'mens jeans', 'shoes', 'womens lehenga', 'womens dress', 'womens jeans', 'womens tops', 'mobiles', 'books', 'software engineering', 'java', 'internet', 'microsoft .net', 'web development', 'programming', 'python', 'object-oriented programming']; // Sample names list
 
     const handleInputChange = (event) => {
         const value = event.target.value;
