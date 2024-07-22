@@ -93,9 +93,9 @@ export const CartItem = ({ item, onRemove, onUpdate, onCheck }) => {
                         <h6>{title}</h6>
                         <p>Price: ₹{new Intl.NumberFormat('en-IN').format(discountedPrice)}</p>
                         <p>
-                            Quantity: &nbsp;
+                            {/* Quantity: &nbsp; */}
                             <button className="rounded-start btn btn-light" onClick={decreaseQuantity}>−</button>
-                            {item.quantity}&nbsp;
+                            &nbsp;{item.quantity}&nbsp;
                             <button className="btn btn-light" onClick={increaseQuantity}>+</button>&nbsp;
                         </p>
                         <button className="btn btn-light border-secondary-subtle mt-2" onClick={handleRemove}>Remove</button>

@@ -201,7 +201,7 @@ const Shopping = ({ product }) => {
         })
 
     }
-    
+
     console.log("categoryIndex : ", categoryIndex);
     console.log("sectionIndex : ", sectionIndex);
     console.log("itemsIndex : ", itemsIndex);
@@ -323,7 +323,7 @@ const Shopping = ({ product }) => {
 
             </Form>
             <section className="py-2">
-                <Row>
+                <Row className="pb-4" style={{ height: '100vh', overflow: 'auto' }}>
                     <Col md={3} className="d-none d-md-block">
                         <div>
                             <p style={{ marginBottom: '0px' }}>

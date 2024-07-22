@@ -4,7 +4,8 @@ import { isExpired } from 'react-jwt'
 import { List, House, Search, Cart4 } from 'react-bootstrap-icons'
 import { Offcanvas } from 'react-bootstrap';
 import { useUserContext } from '../SpringSecurityComponents/UserContext';
-import '../CSS/HomeNavBar.css'
+import '../CSS/HomeNavBar.css';
+import packageJson from '../../package.json';
 
 const HomeNavBar = () => {
     const { jwtToken, totalItems, isAdmin } = useUserContext();
@@ -153,6 +154,9 @@ const HomeNavBar = () => {
                             }
                         </ul>
                     </Offcanvas.Body>
+                    <div>
+                        <span className='fw-light'>version - {packageJson.version}</span>
+                    </div>
                 </Offcanvas>
             </nav>
         </div>)

@@ -37,6 +37,7 @@ const Shopping = ({ product }) => {
     const [itemsIndex, setItemsIndex] = useState(0);
     const [price, setPrice] = useState(5000);
     const [isLoading, setIsLoading] = useState(true); // Flag for loading state
+    // const [showAnimation, setShowAnimation] = useState(false);
 
     useEffect(() => {
         const fetch = async () => {
@@ -202,12 +203,53 @@ const Shopping = ({ product }) => {
         })
 
     }
+    // const handleCategoryChange = (event) => {
+    //     const selectedCategory = event.target.value;
+    //     setCategory(selectedCategory);
+    // };
+
+    // const handleSubcategoryChange = (event) => {
+    //     const selectedSubcategory = event.target.value;
+    //     setSubcategory(selectedSubcategory);
+    // };
+
+    // const handleThirdCategoryChange = (event) => {
+    //     const selectedThirdCategory = event.target.value;
+    //     setThirdCategory(selectedThirdCategory);
+    // };
+    // const handleSubcategoryClick = (subcategory) => {
+    //     if (category === "All") {
+    //         setShowAnimation(true);
+    //         setTimeout(() => {
+    //             setShowAnimation(false);
+    //         }, 2000); // Duration of the animation
+    //     } else {
+    //         setSubcategory(subcategory);
+    //     }
+    // };
+
+    // const handleThirdCategoryClick = (thirdCategory) => {
+    //     if (category === "All" || subcategory === "") {
+    //         setShowAnimation(true);
+    //         setTimeout(() => {
+    //             setShowAnimation(false);
+    //         }, 2000); // Duration of the animation
+    //     } else {
+    //         setThirdCategory(thirdCategory);
+    //     }
+    // };
+
     console.log("categoryIndex : ", categoryIndex);
     console.log("sectionIndex : ", sectionIndex);
     console.log("itemsIndex : ", itemsIndex);
 
     return (
         <Container>
+            {/* {showAnimation && (
+                <div className="animation-arrow">
+                    <div className="arrow"></div>
+                </div>
+            )} */}
             <Modal show={mobileFiltersOpen} onHide={() => setMobileFiltersOpen(false)} dialogClassName="modal-dialog-scrollable">
                 <Modal.Header className='justify-content-between' style={{ borderBottom: '0px' }}>
                     <Modal.Title>Filters</Modal.Title>
@@ -324,12 +366,9 @@ const Shopping = ({ product }) => {
                 </Row>
 
             </Form>
-            {/* <section className="py-2" style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}> */}
             <section className="py-2">
-                <Row style={{ height: '100vh', overflow: 'auto' }}>
-                    {/* <Row style={{ height: '100vh'}}> */}
+                <Row className="pb-4" style={{ height: '100vh', overflow: 'auto' }}>
                     <Col md={3} className="d-none d-md-block" style={{ marginTop: '17px', position: 'sticky', top: '1%', height: '100vh', overflow: 'auto' }} >
-                        {/* <Col md={3} className="d-none d-md-block"> */}
                         <div className="border" style={{ marginTop: '17px' }}>
                             <p style={{ marginBottom: '0px' }}>
                                 <input type="range" id="price" name="price" value={price} min="300" max="20000" onChange={e => setPrice(Number(e.target.value))} style={{ cursor: 'pointer' }}
@@ -430,7 +469,7 @@ const Shopping = ({ product }) => {
                             ))}
                         </Dropdown.Menu>
                     </Dropdown>
-                    <Button variant="link" className="text-decoration-none ms-3 " onClick={() => setMobileFiltersOpen(true)}>
+                    <Button variant="link" className="text-decoration-none ms-3" onClick={() => setMobileFiltersOpen(true)}>
                         <span className="sr-only fs-6 text-dark">Filters</span>
                         <Filter size={25} color='black' />
                     </Button>
@@ -455,15 +494,6 @@ const ProductCard = ({ product }) => {
             <Card.Body>
                 <Card.Title id='product-card-title'>{product.title}</Card.Title>
                 <Card.Text>
-                    {/* <div id='product-card-title'><strong>Brand:</strong> {product.brand}</div> */}
-                    {/* <strong>Price:</strong> {product.discountedPrice ? `₹${product.discountedPrice}` : product.selling_price} <br />
-                    <strong>Original Price:</strong> <s>₹{product.price}</s> <br />
-                    <strong>Discount:</strong> {product.discountPercent}% off <br /> */}
-                    {/* <strong>Available Sizes:</strong>{" "}
-                    {product.size.map((s, idx) => (
-                        <span key={idx}>{s.name}{idx < product.size.length - 1 ? ', ' : ''}</span>
-                    ))} */}
-                    {/* <p>id : {product.id}</p> */}
                     <span id="disc-price">{product.discountedPrice ? `₹${new Intl.NumberFormat('en-IN').format(product.discountedPrice)}` : `${new Intl.NumberFormat('en-IN').format(product.selling_price)}`}</span>
                     <span className="text-decoration-line-through">{`₹${new Intl.NumberFormat('en-IN').format(product.price)}`}</span>
                     <span className="text-success"> {product.discountPercent}% off</span>
