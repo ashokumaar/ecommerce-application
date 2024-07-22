@@ -1,11 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useUserContext } from '../SpringSecurityComponents/UserContext';
 import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
-    const { cartItems, removeFromCart, updateQuantity, handlePaymentItems, totalItems, cartAmount } = useUserContext();
+    const { cartItems, removeFromCart, updateQuantity, handlePaymentItems, totalItems, itemsForPayment, cartAmount, paymentAmount } = useUserContext();
     const [checkedItems, setCheckedItems] = useState([]);
+    const [discountedAmount, setDiscountedAmount] = useState();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (itemsForPayment) {
+            console.log(itemsForPayment);
+            let amount = itemsForPayment.reduce((accumulator, item) => {
+                return accumulator + item.price * item.quantity;
+            }, 0);
+            let savedAmount = amount - paymentAmount;
+            setDiscountedAmount(savedAmount);
+        }
+    }, [itemsForPayment])
 
     // Handle checkbox change
     const handleCheck = (id, checked) => {
@@ -36,12 +48,21 @@ const Cart = () => {
             ) : (
                 <ul className='list-group my-3'>{renderCartItems()}</ul>
             )}
-            {cartItems.length > 0 && (
+            {/* {cartItems.length > 0 && (
                 <div className='p-3' style={{ backgroundColor: '#EFEBE9' }}>
                     <p>Total items: {totalItems}</p>
                     <p>Total cart items value: ₹{new Intl.NumberFormat('en-IN').format(cartAmount)}</p>
                     <button className="btn btn-light border-secondary-subtle" onClick={checkOut}>proceed to checkout</button>
                 </div>
+            )} */}
+            {itemsForPayment.length > 0 ? (
+                <div style={{ backgroundColor: '#EFEBE9' }}>
+                    <p>Total items : {itemsForPayment.length}</p>
+                    <p>Subtotal : ₹{new Intl.NumberFormat('en-IN').format(paymentAmount)}</p>
+                    <button className="btn btn-light border-secondary-subtle" onClick={checkOut}>proceed to checkout</button>
+                </div>
+            ) : (
+                <div style={{ backgroundColor: '#EFEBE9' }}>No items selected</div>
             )}
         </div>
     );

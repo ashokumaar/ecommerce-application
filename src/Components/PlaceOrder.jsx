@@ -29,7 +29,6 @@ const PlaceOrder = () => {
             }, 0);
             let savedAmount = amount - paymentAmount;
             setDiscountedAmount(savedAmount);
-
         }
     }, [itemsForPayment])
 
