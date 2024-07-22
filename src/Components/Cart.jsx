@@ -24,6 +24,8 @@ const Cart = () => {
         setCheckedItems((prevCheckedItems) =>
             checked ? [...prevCheckedItems, id] : prevCheckedItems.filter((itemId) => itemId !== id)
         );
+        const itemsForPayment = cartItems.filter(item => checkedItems.includes(item.id));
+        handlePaymentItems(itemsForPayment);
     };
 
     // Handle displaying cart items (assuming 'CartItem' component exists)
@@ -35,8 +37,8 @@ const Cart = () => {
 
     const checkOut = () => {
         console.log('placing order steps : address select');
-        const itemsForPayment = cartItems.filter(item => checkedItems.includes(item.id));
-        handlePaymentItems(itemsForPayment);
+        // const itemsForPayment = cartItems.filter(item => checkedItems.includes(item.id));
+        // handlePaymentItems(itemsForPayment);
         navigate('/addressList');
     }
 
