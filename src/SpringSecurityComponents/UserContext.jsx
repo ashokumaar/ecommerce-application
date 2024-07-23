@@ -82,8 +82,9 @@ export const UserContextProvider = ({ children }) => {
             if (cartItems.length === 0) {
                 toast(
                     <div>
-                        Your cart is getting lonely😔 <br />
-                        Add some products & make it happy😊
+                        Your cart is getting lonely😔<br />
+                        Add some products<br />
+                        & make it happy😊
                     </div>
                     , { autoClose: 3500 })
             }
