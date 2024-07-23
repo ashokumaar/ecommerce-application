@@ -10,7 +10,7 @@ import '../CSS/Products.css';
 
 const RMC2 = (props) => {
     const cards = props.value;
-    const heading = props.heading
+    const heading = props.heading;
     const link = props.link;
     const { addToCart } = useUserContext();
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -64,7 +64,7 @@ const RMC2 = (props) => {
         addToCart(product);
     };
     return (
-        <Container className='my-3'>
+        <Container className={props.className || 'my-3'} >
             <h4 style={{ textAlign: "start", paddingLeft: '10px' }}>{heading}</h4>
             <Carousel ref={carouselRef} responsive={responsive} beforeChange={(nextSlide) => setCurrentSlide(nextSlide)}>
                 {cards.length > 0 && cards[0] !== undefined && cards.map((eachCard, index) => (
