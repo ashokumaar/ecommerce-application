@@ -46,7 +46,7 @@ const Home = () => {
             <HomePageCarousel img1={img1} img2={img2} img3={img3} />
             <RMC2 value={fashionCards} heading='Fashion products' link='/fashion'/>
             <RMC2 value={booksCards} heading='Books' link='/books'/>
-            <RMC2 value={electronicsCards} heading='Electronics products' link='/electronics'/>
+            <RMC2 className="mt-3 mb-4" value={electronicsCards} heading='Electronics products' link='/electronics'/>
         </div>
     );
 }
