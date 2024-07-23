@@ -80,7 +80,7 @@ export const UserContextProvider = ({ children }) => {
         }
         setTimeout(() => {
             if(cartItems.length===0){
-                toast.warn("Your cart is getting lonely😔 \nadd some products & make it happy😊 ", {autoClose:3500})
+                toast("Your cart is getting lonely😔 \nadd some products & make it happy😊 ", {autoClose:3500})
             }
         }, 30000);
     }, []);
