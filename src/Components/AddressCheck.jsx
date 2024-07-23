@@ -113,7 +113,7 @@ const AddressCheck = () => {
                     user.addressList.length === 0 ? (
                         <div>
                             <p>Please create an address now.</p>
-                            <AddressForm />
+                            <AddressForm handleAddressAdditions={handleAddressAdditions} />
                         </div>
                     ) : (
                         <div className='d-flex flex-column justify-content-center align-items-center my-4'>
