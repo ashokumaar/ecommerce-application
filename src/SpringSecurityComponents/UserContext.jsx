@@ -33,6 +33,7 @@ export const UserContextProvider = ({ children }) => {
     const [totalItems, setTotalItems] = useState(0);
     const [cartAmount, setCartAmount] = useState(0);
     const [itemsForPayment, setItemsForPayment] = useState([]);
+    const [totalQuantity, setTotalQuantity] = useState(0);
     const [paymentAmount, setPaymentAmount] = useState(0);
     // const [products, setProducts] = useState([]);
     const [fashionProducts, setFashionProducts] = useState([]);
@@ -198,6 +199,12 @@ export const UserContextProvider = ({ children }) => {
             return accumulator + item.discountedPrice * item.quantity;
         }, 0);
         setPaymentAmount(amount);
+
+        const quantity = items.reduce((accumulator, item) => {
+            return accumulator + item.quantity;
+        }, 0);
+        setTotalQuantity(quantity);
+
     }
 
     const handleLogin = (newToken) => {
@@ -225,6 +232,7 @@ export const UserContextProvider = ({ children }) => {
         setCart({})
         setCartItems([]);
         setItemsForPayment([]);
+        setTotalQuantity(0);
         setTotalItems(0);
         setCartAmount(0);
     };
@@ -305,6 +313,8 @@ export const UserContextProvider = ({ children }) => {
                 cart,
                 cartItems,
                 itemsForPayment,
+                totalQuantity,
+                paymentAmount,
                 handleSetUser,
                 handlePaymentItems,
                 handleLogin,
@@ -315,7 +325,6 @@ export const UserContextProvider = ({ children }) => {
                 updateQuantity,
                 totalItems,
                 cartAmount,
-                paymentAmount,
                 products,
                 booksProducts,
                 electronicsProducts,

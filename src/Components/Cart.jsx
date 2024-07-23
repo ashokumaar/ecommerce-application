@@ -3,7 +3,7 @@ import { useUserContext } from '../SpringSecurityComponents/UserContext';
 import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
-    const { cartItems, removeFromCart, updateQuantity, handlePaymentItems, itemsForPayment, paymentAmount } = useUserContext();
+    const { cartItems, removeFromCart, updateQuantity, handlePaymentItems, itemsForPayment, totalQuantity, paymentAmount } = useUserContext();
     const [checkedItems, setCheckedItems] = useState([]);
     const navigate = useNavigate();
 
@@ -39,10 +39,11 @@ const Cart = () => {
                 <p>Your cart is empty.</p>
             ) : (
                 <ul className="list-group my-3">{renderCartItems()}</ul>
+                
             )}
             {itemsForPayment.length > 0 && (
                 <div className="p-3" style={{ backgroundColor: '#EFEBE9' }}>
-                    <p>Total items: {itemsForPayment.length}</p>
+                    <p>Total items: {totalQuantity}</p>
                     <p>Subtotal: ₹{new Intl.NumberFormat('en-IN').format(paymentAmount)}</p>
                     <button className="btn btn-light border-secondary-subtle" onClick={checkOut}>Proceed to checkout</button>
                 </div>

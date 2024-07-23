@@ -5,7 +5,7 @@ import { useUserContext } from '../SpringSecurityComponents/UserContext'
 import { createOrder } from '../APIs/AuthServiceAPIs';
 
 const PlaceOrder = () => {
-    const { jwtToken, itemsForPayment, paymentAmount, removeFromCart } = useUserContext();
+    const { jwtToken, itemsForPayment, totalQuantity, paymentAmount, removeFromCart } = useUserContext();
     const [address, setAddress] = useState(null);
     const [discountedAmount, setDiscountedAmount] = useState();
     const navigate = useNavigate();
@@ -76,7 +76,6 @@ const PlaceOrder = () => {
                     <div className="list-group mx-3 my-2">
                         <div className="list-group-item" key=''>
                             <tag className='fst-italic'>Delivery address : </tag>
-                            {address.id},
                             <strong> {address.street}, {address.area}, </strong>
                             {address.city}, {address.state}, {address.pincode}
                         </div>
@@ -92,7 +91,7 @@ const PlaceOrder = () => {
             }
             {itemsForPayment.length > 0 && (
                 <div style={{ backgroundColor: '#EFEBE9' }}>
-                    <p>Total items : {itemsForPayment.length}</p>
+                    <p>Total items : {totalQuantity}</p>
                     <p>Total value : ₹{new Intl.NumberFormat('en-IN').format(paymentAmount)} (<tag className='fst-italic'>saved : ₹{new Intl.NumberFormat('en-IN').format(discountedAmount)}</tag>)</p>
                 </div>
             )}
@@ -116,7 +115,6 @@ export const CartItem = ({ item }) => {
                 </div>
                 <div className="col">
                     <div className="cart-item-info">
-                        <span>id: {item.id}</span>
                         <h6>{title}</h6>
                         <p>Price: ₹{new Intl.NumberFormat('en-IN').format(discountedPrice)}</p>
                         <p>
