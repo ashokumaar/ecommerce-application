@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useMemo } from 'react';
-import {  isExpired } from 'react-jwt'
+import { isExpired } from 'react-jwt'
 import { useNavigate } from 'react-router-dom';
 import { getCartByUserId, createCart, addItemToCart, updateCartItemQuantity, removeItem } from '../APIs/AuthServiceAPIs';
 import { getAllProducts1 } from '../APIs/BooksAPIs'
@@ -79,8 +79,13 @@ export const UserContextProvider = ({ children }) => {
             fetchProducts();
         }
         setTimeout(() => {
-            if(cartItems.length===0){
-                toast("Your cart is getting lonely😔 \nadd some products & make it happy😊 ", {autoClose:3500})
+            if (cartItems.length === 0) {
+                toast(
+                    <div>
+                        Your cart is getting lonely😔 <br />
+                        Add some products & make it happy😊
+                    </div>
+                    , { autoClose: 3500 })
             }
         }, 30000);
     }, []);
