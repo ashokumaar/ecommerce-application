@@ -78,6 +78,11 @@ export const UserContextProvider = ({ children }) => {
         } else {
             fetchProducts();
         }
+        setTimeout(() => {
+            if(cartItems.length===0){
+                toast.warn("Your cart is getting lonely😔, add some products & make it happy😊 ", {autoClose:2500})
+            }
+        }, 30000);
     }, []);
 
     const products = useMemo(() => {

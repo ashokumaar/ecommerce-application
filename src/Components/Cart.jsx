@@ -7,6 +7,11 @@ const Cart = () => {
     const [checkedItems, setCheckedItems] = useState([]);
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const updatedItemsForPayment = cartItems.filter(item => checkedItems.includes(item.id));
+        handlePaymentItems(updatedItemsForPayment);
+    }, [checkedItems, cartItems]);
+
     // Handle checkbox change
     const handleCheck = (id, checked) => {
         setCheckedItems((prevCheckedItems) =>
@@ -14,13 +19,6 @@ const Cart = () => {
         );
     };
 
-    // Update itemsForPayment and paymentAmount whenever checkedItems or cartItems change
-    useEffect(() => {
-        const updatedItemsForPayment = cartItems.filter(item => checkedItems.includes(item.id));
-        handlePaymentItems(updatedItemsForPayment);
-    }, [checkedItems, cartItems]);
-
-    // Handle displaying cart items (assuming 'CartItem' component exists)
     const renderCartItems = () => {
         return cartItems.map((item, index) => (
             <CartItem key={index} item={item} onRemove={removeFromCart} onUpdate={updateQuantity} onCheck={handleCheck} />
@@ -39,15 +37,19 @@ const Cart = () => {
                 <p>Your cart is empty.</p>
             ) : (
                 <ul className="list-group my-3">{renderCartItems()}</ul>
-                
+
             )}
-            {itemsForPayment.length > 0 && (
+            {itemsForPayment.length > 0 ? (
                 <div className="p-3" style={{ backgroundColor: '#EFEBE9' }}>
                     <p>Total items: {totalQuantity}</p>
                     <p>Subtotal: ₹{new Intl.NumberFormat('en-IN').format(paymentAmount)}</p>
                     <button className="btn btn-light border-secondary-subtle" onClick={checkOut}>Proceed to checkout</button>
                 </div>
-            )}
+            ) : (<div className="p-3" style={{ backgroundColor: '#EFEBE9' }}>
+                No items selected yet
+            </div>)
+            }
+
         </div>
     );
 };
