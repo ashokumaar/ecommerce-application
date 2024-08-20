@@ -1,17 +1,39 @@
 version: 0.0
 os: linux
 files:
-  - source: .
-    destination: /var/www/html/
+  # Define the source and destination for the deployment files
+  - source: /
+    destination: /var/www/html/my-vite-app
+
 hooks:
+  # Optionally define hooks to run scripts at various stages of the deployment
+
   BeforeInstall:
-    - location: scripts/install_dependencies
+    # Commands to run before the deployment starts (e.g., backup)
+    - location: scripts/before_install.sh
       timeout: 300
       runas: root
-    - location: scripts/start_server
+
+  AfterInstall:
+    # Commands to run after the files are installed but before starting the service
+    - location: scripts/after_install.sh
       timeout: 300
       runas: root
+
+  ApplicationStart:
+    # Commands to start the application or any necessary services
+    - location: scripts/application_start.sh
+      timeout: 300
+      runas: root
+
   ApplicationStop:
-    - location: scripts/stop_server
+    # Commands to stop the application or any necessary services
+    - location: scripts/application_stop.sh
+      timeout: 300
+      runas: root
+
+  ValidateService:
+    # Commands to validate that the deployment was successful
+    - location: scripts/validate_service.sh
       timeout: 300
       runas: root
