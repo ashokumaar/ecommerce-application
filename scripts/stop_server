@@ -1,5 +1,7 @@
 #!/bin/bash
-isExistApp = `pgrep httpd`
-if [[ -n  $isExistApp ]]; then
-    service httpd stop        
-fi
+
+# Stop the web server
+sudo service httpd stop
+
+# If using Apache on Ubuntu/Debian, use:
+# sudo service apache2 stop
