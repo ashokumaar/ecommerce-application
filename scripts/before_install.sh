@@ -1,3 +1,4 @@
 #!/bin/bash
-echo "Backing up current files..."
-# Commands to back up current files (if needed)
+echo "Stopping the currently running server..."
+# Assuming you're using PM2 to manage your Node.js application
+pm2 stop my-react-app || true

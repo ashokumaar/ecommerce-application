@@ -3,37 +3,35 @@ os: linux
 files:
   # Define the source and destination for the deployment files
   - source: /
-    destination: /var/www/html/my-vite-app
+    destination: /var/www/html/my-react-app
 
 hooks:
-  # Optionally define hooks to run scripts at various stages of the deployment
-
+  # Hook to run scripts before installing new version
   BeforeInstall:
-    # Commands to run before the deployment starts (e.g., backup)
     - location: scripts/before_install.sh
       timeout: 300
       runas: root
 
+  # Hook to run scripts after files are installed but before starting the server
   AfterInstall:
-    # Commands to run after the files are installed but before starting the service
     - location: scripts/after_install.sh
       timeout: 300
       runas: root
 
+  # Hook to start the application server
   ApplicationStart:
-    # Commands to start the application or any necessary services
     - location: scripts/application_start.sh
       timeout: 300
       runas: root
 
+  # Hook to stop the application server
   ApplicationStop:
-    # Commands to stop the application or any necessary services
     - location: scripts/application_stop.sh
       timeout: 300
       runas: root
 
+  # Hook to validate that the service is running properly
   ValidateService:
-    # Commands to validate that the deployment was successful
     - location: scripts/validate_service.sh
       timeout: 300
       runas: root
