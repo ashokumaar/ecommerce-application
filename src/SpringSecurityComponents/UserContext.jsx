@@ -83,8 +83,7 @@ export const UserContextProvider = ({ children }) => {
                 toast(
                     <div>
                         Your cart is getting lonely😔<br />
-                        Add some products<br />
-                        & make it happy😊
+                        Add some products & make it happy😊
                     </div>
                     , { autoClose: 3500 })
             }
