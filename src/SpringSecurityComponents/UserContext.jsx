@@ -78,16 +78,44 @@ export const UserContextProvider = ({ children }) => {
         } else {
             fetchProducts();
         }
-        setTimeout(() => {
-            if (cartItems.length === 0) {
-                toast(
-                    <div>
-                        Your cart is getting lonely😔<br />
-                        Add some products & make it happy😊
-                    </div>
-                    , { autoClose: 3500 })
-            }
-        }, 30000);
+        // setTimeout(() => {
+        //     if (cartItems.length === 0) {
+        //         toast(
+        //             <div>
+        //                 Your cart is getting lonely😔<br />
+        //                 Add some products & make it happy😊
+        //             </div>
+        //             , { autoClose: 3500 })
+        //     }
+        // }, 30000);
+        // localStorage.setItem('cart-suggestion', true);
+
+        const cartNotificationKey = 'cart-suggestion';
+        const expirationHours = 24;
+        const expirationTime = expirationHours * 60 * 60 * 1000; // Convert hours to milliseconds
+
+        const lastNotificationTime = localStorage.getItem(cartNotificationKey);
+        const isExpired = !lastNotificationTime || (Date.now() - parseInt(lastNotificationTime, 10)) > expirationTime;
+
+        // Function to show the toast notification
+        const showNotification = () => {
+            toast(
+                <div>
+                    Your cart is getting lonely😔<br />
+                    Add some products & make it happy😊
+                </div>
+                , { autoClose: 3500 });
+
+            // Update localStorage with the current timestamp
+            localStorage.setItem(cartNotificationKey, Date.now().toString());
+        };
+        // Only trigger the toast notification if the cart is empty and the notification hasn't been shown recently
+        if (cartItems.length === 0 && isExpired) {
+            const timeoutId = setTimeout(showNotification, 30000); // Show notification after 30 seconds
+
+            // Cleanup timeout if the component unmounts or cart items change
+            return () => clearTimeout(timeoutId);
+        }
     }, []);
 
     const products = useMemo(() => {
