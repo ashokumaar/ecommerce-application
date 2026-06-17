@@ -1,17 +1,37 @@
 version: 0.0
 os: linux
 files:
-  - source: .
-    destination: /var/www/html/
+  # Define the source and destination for the deployment files
+  - source: /
+    destination: /var/www/html/my-react-app
+
 hooks:
+  # Hook to run scripts before installing new version
   BeforeInstall:
-    - location: scripts/install_dependencies
+    - location: scripts/before_install.sh
       timeout: 300
       runas: root
-    - location: scripts/start_server
+
+  # Hook to run scripts after files are installed but before starting the server
+  AfterInstall:
+    - location: scripts/after_install.sh
       timeout: 300
       runas: root
+
+  # Hook to start the application server
+  ApplicationStart:
+    - location: scripts/application_start.sh
+      timeout: 300
+      runas: root
+
+  # Hook to stop the application server
   ApplicationStop:
-    - location: scripts/stop_server
+    - location: scripts/application_stop.sh
+      timeout: 300
+      runas: root
+
+  # Hook to validate that the service is running properly
+  ValidateService:
+    - location: scripts/validate_service.sh
       timeout: 300
       runas: root
